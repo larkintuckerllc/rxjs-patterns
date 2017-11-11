@@ -2,44 +2,30 @@
 
 var _Observable = require('rxjs/Observable');
 
-require('rxjs/add/observable/merge');
-
 // NORMAL
-/* eslint no-console: "off" */
 const asyncA = () => new Promise(resolve => {
   setTimeout(() => resolve('Normal A'), 1000);
-});
+}); /* eslint no-console: "off" */
+
 const asyncB = () => new Promise(resolve => {
   setTimeout(() => resolve('Normal B'), 1000);
 });
 const asyncC = () => new Promise(resolve => {
   setTimeout(() => resolve('Normal C'), 1000);
 });
-
-Promise.all([asyncA(), asyncB(), asyncC()]).then(([oA, oB, oC]) => {
-  console.log(oA);
-  console.log(oB);
-  console.log(oC);
-});
+asyncA().then(o => console.log(o)).then(asyncB).then(o => console.log(o)).then(asyncC).then(o => console.log(o));
 
 // RXJS
-const obsA = _Observable.Observable.create(observer => {
+const myObservable = _Observable.Observable.create(observer => {
   setTimeout(() => {
     observer.next('RxJS A');
-    observer.complete();
+    setTimeout(() => {
+      observer.next('RxJS B');
+      setTimeout(() => {
+        observer.next('RxJS C');
+        observer.complete();
+      }, 1000);
+    }, 1000);
   }, 1000);
 });
-const obsB = _Observable.Observable.create(observer => {
-  setTimeout(() => {
-    observer.next('RxJS B');
-    observer.complete();
-  }, 1000);
-});
-const obsC = _Observable.Observable.create(observer => {
-  setTimeout(() => {
-    observer.next('RxJS C');
-    observer.complete();
-  }, 1000);
-});
-const myObservable = _Observable.Observable.merge(obsA, obsB, obsC);
 myObservable.subscribe(o => console.log(o));
