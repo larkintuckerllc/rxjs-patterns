@@ -3,9 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 const myObservable = Observable.create((observer) => {
+  let counter = 1;
   const intervalID = setInterval(() => {
-    console.log('run');
-    observer.next('hi');
+    console.log(counter);
+    observer.next(counter);
+    counter += 1;
   }, 1000);
   return () => {
     clearInterval(intervalID);
