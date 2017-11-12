@@ -1,6 +1,11 @@
 /* eslint no-console: "off" */
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
+const myObservable = Observable.create((observer) => {
+  observer.next(1);
+  observer.next(2);
+  observer.next(3);
+});
 const mySubject = new Subject();
 mySubject.subscribe({
   next: o => console.log(`observer A: ${o}`),
@@ -8,5 +13,4 @@ mySubject.subscribe({
 mySubject.subscribe({
   next: o => console.log(`observer B: ${o}`),
 });
-mySubject.next(1);
-mySubject.next(2);
+myObservable.subscribe(mySubject);
