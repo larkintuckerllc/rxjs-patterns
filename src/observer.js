@@ -6,6 +6,7 @@ const myObservable = Observable.create((observer) => {
   observer.next(1);
   observer.next(2);
   observer.next(3);
+  observer.complete();
 });
 myObservable.subscribe({
   next: o => console.log(o),
