@@ -1,5 +1,6 @@
 /* eslint no-console: "off" */
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 const myObservable = Observable.create((observer) => {
   observer.next(1);

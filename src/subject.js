@@ -1,5 +1,5 @@
 /* eslint no-console: "off" */
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 
 const mySubject = new Subject();
 mySubject.subscribe({
