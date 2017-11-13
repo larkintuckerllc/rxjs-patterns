@@ -19,7 +19,7 @@ const combineReducers = (reducers) => {
     return hasChanged ? nextState : state;
   };
 };
-const counter1 = (state, action) => {
+const counter1 = (state = 0, action) => {
   switch (action.type) {
     case 'C1_INCREMENT':
       return state + 1;
@@ -29,7 +29,7 @@ const counter1 = (state, action) => {
       return state;
   }
 };
-const counter2 = (state, action) => {
+const counter2 = (state = 0, action) => {
   switch (action.type) {
     case 'C2_INCREMENT':
       return state + 1;
@@ -39,16 +39,13 @@ const counter2 = (state, action) => {
       return state;
   }
 };
-// TODO: HOW TO GET INTIAL ST
-const mySubject = new Subject();
-const myStore = mySubject
-  .scan(combineReducers({
-    counter1,
-    counter2,
-  }), {
-    counter1: 0,
-    counter2: 0,
-  });
+const reducer = combineReducers({
+  counter1,
+  counter2,
+});
+const initialState = combineReducers({}, { TYPE: '_INIT' });
+const myStore = (new Subject())
+  .scan(reducer, initialState);
 myStore.subscribe({
   next: o => console.log(o),
 });
