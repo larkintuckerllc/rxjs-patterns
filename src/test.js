@@ -1,5 +1,6 @@
 /* eslint no-console: "off" */
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/scan';
 
 // BORROWED HEAVILY FROM REDUX
@@ -44,20 +45,25 @@ const reducer = combineReducers({
   counter2,
 });
 const initialState = reducer({}, { TYPE: '_INIT' });
-const myStore = (new Subject())
+const mySubject = (new Subject())
   .scan(reducer, initialState);
+const myStore = new BehaviorSubject(initialState);
+mySubject.subscribe(myStore);
 myStore.subscribe({
-  next: o => console.log(o),
+  next: (o) => {
+    console.log('A');
+    console.log(o);
+  },
 });
-myStore.next({
+mySubject.next({
   type: 'C1_INCREMENT',
 });
-myStore.next({
+myStore.subscribe({
+  next: (o) => {
+    console.log('B');
+    console.log(o);
+  },
+});
+mySubject.next({
   type: 'C1_INCREMENT',
-});
-myStore.next({
-  type: 'C1_DECREMENT',
-});
-myStore.next({
-  type: 'C2_INCREMENT',
 });
