@@ -2,7 +2,7 @@
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/scan';
 
-const counter = (state, action) => {
+const reducer = (state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT':
       return state + 1;
@@ -12,18 +12,17 @@ const counter = (state, action) => {
       return state;
   }
 };
-const mySubject = new Subject();
-const myCounter = mySubject
-  .scan(counter, 0);
-myCounter.subscribe({
+const myStore = (new Subject())
+  .scan(reducer, 0);
+myStore.subscribe({
   next: o => console.log(o),
 });
-mySubject.next({
+myStore.next({
   type: 'INCREMENT',
 });
-mySubject.next({
+myStore.next({
   type: 'INCREMENT',
 });
-mySubject.next({
+myStore.next({
   type: 'DECREMENT',
 });
