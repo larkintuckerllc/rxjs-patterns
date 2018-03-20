@@ -8,7 +8,7 @@ const myArray = [1, 2, 3];
 // NORMAL
 console.log('Normal');
 const myNewArray = myArray.map(o => `${o.toString()} + !!!`);
-myNewArray.map(o => console.log(o));
+myNewArray.forEach(o => console.log(o));
 
 // RXJS
 console.log('RxJS');
